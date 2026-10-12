@@ -38,6 +38,7 @@ from jiuwenswarm.agents.harness.common.research_proposal import (
     prompts,
     render,
 )
+from jiuwenswarm.agents.harness.common.research_proposal.library import ResearchLibrary
 from jiuwenswarm.agents.harness.common.research_proposal.literature import (
     LiteratureRetriever,
 )
@@ -95,11 +96,14 @@ class ResearchProposalPipeline:
         run_dir: str | Path,
         *,
         max_repairs: int = 1,
+        library: ResearchLibrary | None = None,
     ) -> None:
         self.model = model
         self.retriever = retriever
         self.run_dir = Path(run_dir)
         self.max_repairs = max_repairs
+        # Research memory: recalled before framing, updated after the proposal.
+        self.library = library
 
     # -- artifact helpers -------------------------------------------------------
 
@@ -152,8 +156,16 @@ class ResearchProposalPipeline:
         cached = self._load("01_problem_frame.json", ProblemFrame)
         if cached is not None:
             return cached
+        recall = (
+            await self.library.recall(raw_problem) if self.library is not None else ""
+        )
+        if recall:
+            self._write_text("00_memory_recall.md", recall + "\n")
         frame = await self._ask(
-            "framing", prompts.framing_prompt(raw_problem), ProblemFrame, lambda _: []
+            "framing",
+            prompts.framing_prompt(raw_problem, recall),
+            ProblemFrame,
+            lambda _: [],
         )
         self._save("01_problem_frame.json", frame)
         return frame
@@ -165,6 +177,16 @@ class ResearchProposalPipeline:
         corpus = await self.retriever.retrieve(
             frame, self._path("sources"), self.run_dir
         )
+        if corpus.backend_errors and len(corpus.papers) < max(
+            1, self.retriever.max_papers // 2
+        ):
+            # A backend failed (rate limit, outage) and too little came back: reviewing
+            # this would look complete while missing most of the field. Not saved, so a
+            # re-run retries retrieval.
+            raise EmptyCorpus(
+                f"only {len(corpus.papers)} sources after backend failures; retry later. "
+                f"First errors: {corpus.backend_errors[:3]}"
+            )
         if not corpus.papers:
             raise EmptyCorpus(
                 f"no source passed retrieval for {len(frame.search_queries)} queries"
@@ -238,7 +260,12 @@ class ResearchProposalPipeline:
         self._write_text(
             "manifest.json", json.dumps(manifest, indent=1, ensure_ascii=False)
         )
-        return PipelineResult(self.run_dir, frame, corpus, review, directions, proposal)
+        result = PipelineResult(
+            self.run_dir, frame, corpus, review, directions, proposal
+        )
+        if self.library is not None:
+            self.library.ingest(result)
+        return result
 
 
 __all__ = ["EmptyCorpus", "PipelineResult", "ResearchProposalPipeline", "StageFailed"]

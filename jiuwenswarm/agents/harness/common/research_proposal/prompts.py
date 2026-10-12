@@ -26,7 +26,7 @@ Turn the raw research problem below into a framed problem a literature search ca
 
 Raw problem:
 {raw_problem}
-
+{memory}
 Return JSON with these keys:
 - "raw_problem": the raw problem, copied verbatim
 - "research_question": one precise, answerable question
@@ -135,6 +135,10 @@ def evidence_block(
             f"  authors: {authors}; year: {paper.year or 'unknown'}; venue: {paper.venue or 'unknown'}",
             f"  abstract: {paper.abstract[:abstract_chars] or 'not available'}",
         ]
+        if paper.prior_notes:
+            lines.append(
+                f"  notes from earlier sessions: {paper.prior_notes[:excerpt_chars]}"
+            )
         if paper.evidence_excerpt:
             lines.append(
                 f"  full-text excerpt: {paper.evidence_excerpt[:excerpt_chars]}"
@@ -143,8 +147,17 @@ def evidence_block(
     return "\n\n".join(blocks)
 
 
-def framing_prompt(raw_problem: str) -> str:
-    return FRAMING.format(raw_problem=raw_problem.strip())
+MEMORY = """
+Research memory (earlier sessions, their open gaps and papers already read). Build on it: link the
+new question to related earlier gaps where they genuinely connect, and include search queries that
+reach beyond papers already read. Do not assume earlier findings apply unless they clearly do.
+{recall}
+"""
+
+
+def framing_prompt(raw_problem: str, recall: str = "") -> str:
+    memory = MEMORY.format(recall=recall.strip()) if recall.strip() else ""
+    return FRAMING.format(raw_problem=raw_problem.strip(), memory=memory)
 
 
 def review_prompt(frame: ProblemFrame, corpus: Corpus) -> str:

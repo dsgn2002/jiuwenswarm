@@ -143,7 +143,7 @@ async def test_arxiv_backend_parses_feed_and_broadens_thin_results():
         )
 
     client = httpx.AsyncClient(transport=httpx.MockTransport(handler))
-    backend = ArxivBackend(client=client)
+    backend = ArxivBackend(client=client, min_interval=0)
 
     records = await backend.search("GLU variants improve transformer layers", 6)
     await client.aclose()
@@ -182,7 +182,7 @@ async def test_retriever_merges_web_copy_into_arxiv_record_and_enriches(tmp_path
     client = httpx.AsyncClient(transport=httpx.MockTransport(handler))
     web = OpenJiuwenWebBackend(tool=FakeFreeSearchTool(BING_JUNK))
     retriever = LiteratureRetriever(
-        backends=[ArxivBackend(client=client), web],
+        backends=[ArxivBackend(client=client, min_interval=0), web],
         downloader=None,
         pause_seconds=0,
         min_relevance=0.3,
@@ -239,3 +239,100 @@ def test_select_diverse_covers_every_query_before_going_deep():
 
     # The paper both queries found comes first, then one per query in rank order.
     assert picked == ["both", "a1", "b1"]
+
+
+async def test_arxiv_backend_backs_off_on_rate_limit():
+    queries: list[str] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        queries.append(request.url.params["search_query"])
+        if len(queries) == 1:
+            return httpx.Response(429, text="slow down")
+        return httpx.Response(
+            200,
+            text=_feed(_entry("2002.05202", "GLU Variants Improve Transformer", "x")),
+        )
+
+    client = httpx.AsyncClient(transport=httpx.MockTransport(handler))
+    backend = ArxivBackend(client=client, min_interval=0, backoff=0)
+
+    records = await backend.search("GLU variants", 4)
+    await client.aclose()
+
+    # The rate-limited request is retried as is before any broader query runs.
+    assert queries[:2] == ['all:"glu variants"', 'all:"glu variants"']
+    assert [r.source_id for r in records] == ["arxiv:2002.05202"]
+
+
+async def test_retriever_records_backend_failures(tmp_path: Path):
+    class Failing:
+        name = "arxiv"
+
+        async def search(self, query: str, max_results: int):
+            raise httpx.HTTPStatusError(
+                "429",
+                request=httpx.Request("GET", "https://x"),
+                response=httpx.Response(429),
+            )
+
+    retriever = LiteratureRetriever(
+        backends=[Failing()], downloader=None, pause_seconds=0
+    )
+    frame = ProblemFrame(
+        raw_problem="x",
+        research_question="q",
+        motivation="m",
+        key_concepts=["k"],
+        search_queries=["a b", "c d"],
+    )
+
+    corpus = await retriever.retrieve(frame, tmp_path, tmp_path)
+
+    assert corpus.papers == []
+    assert len(corpus.backend_errors) == 2
+    assert corpus.backend_errors[0].startswith("arxiv: 'a b': 429")
+
+
+async def test_library_only_papers_are_capped_and_keep_their_notes(tmp_path: Path):
+    def paper(i: int, backend: str) -> PaperRecord:
+        return PaperRecord(
+            source_id=f"arxiv:2400.0000{i}",
+            title=f"Tool reasoning paper {i} {backend}",
+            url=f"https://arxiv.org/abs/2400.0000{i}",
+            backend=backend,
+            relevance=1.0,
+            prior_notes="seen yesterday" if backend == "library" else "",
+        )
+
+    class Static:
+        def __init__(self, name: str, papers: list[PaperRecord]) -> None:
+            self.name, self.papers = name, papers
+
+        async def search(self, query: str, max_results: int):
+            return [
+                p.model_copy(update={"matched_queries": [query]}) for p in self.papers
+            ]
+
+    library = Static("library", [paper(i, "library") for i in range(5)])
+    fresh = Static("arxiv", [paper(i, "arxiv") for i in range(5, 9)])
+    retriever = LiteratureRetriever(
+        backends=[library, fresh],
+        downloader=None,
+        pause_seconds=0,
+        max_papers=8,
+        min_topic_relevance=0.0,
+    )
+    frame = ProblemFrame(
+        raw_problem="x",
+        research_question="q",
+        motivation="m",
+        key_concepts=["tool"],
+        search_queries=["tool reasoning", "reasoning paper"],
+    )
+
+    corpus = await retriever.retrieve(frame, tmp_path, tmp_path)
+
+    from_library = [p for p in corpus.papers if p.backend == "library"]
+    assert len(from_library) == 2  # 25% of 8 slots
+    assert all(p.prior_notes == "seen yesterday" for p in from_library)
+    assert len([p for p in corpus.papers if p.backend == "arxiv"]) == 4

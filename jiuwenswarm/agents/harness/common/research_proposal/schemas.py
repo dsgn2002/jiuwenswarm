@@ -73,6 +73,8 @@ class PaperRecord(_Strict):
         "metadata_only"
     )
     evidence_excerpt: str = ""
+    # Notes written about this paper in earlier sessions (from the research library).
+    prior_notes: str = ""
 
 
 class Corpus(_Strict):
@@ -80,6 +82,7 @@ class Corpus(_Strict):
     papers: list[PaperRecord] = Field(default_factory=list)
     queries_run: list[str] = Field(default_factory=list)
     rejected_results: int = 0
+    backend_errors: list[str] = Field(default_factory=list)
 
     def ids(self) -> set[str]:
         return {paper.source_id for paper in self.papers}

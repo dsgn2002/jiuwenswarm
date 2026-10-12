@@ -1,0 +1,726 @@
+{
+ "papers": {
+  "arxiv:2505.14246": {
+   "source_id": "arxiv:2505.14246",
+   "title": "Visual Agentic Reinforcement Fine-Tuning",
+   "url": "https://arxiv.org/abs/2505.14246",
+   "authors": [
+    "Ziyu Liu",
+    "Yuhang Zang",
+    "Yushan Zou",
+    "Zijian Liang",
+    "Xiaoyi Dong",
+    "Yuhang Cao",
+    "Haodong Duan",
+    "Dahua Lin",
+    "Jiaqi Wang"
+   ],
+   "year": "2025",
+   "venue": "arXiv",
+   "doi": "10.48550/arXiv.2505.14246",
+   "pdf_url": "https://arxiv.org/pdf/2505.14246v1",
+   "abstract": "A key trend in Large Reasoning Models (e.g., OpenAI's o3) is the native agentic ability to use external tools such as web browsers for searching and writing/executing code for image manipulation to think with images. In the open-source research community, while significant progress has been made in language-only agentic abilities such as function calling and tool integration, the development of multi-modal agentic capabilities that involve truly thinking with images, and their corresponding benchmarks, are still less explored. This work highlights the effectiveness of Visual Agentic Reinforcement Fine-Tuning (Visual-ARFT) for enabling flexible and adaptive reasoning abilities for Large Vision-Language Models (LVLMs). With Visual-ARFT, open-source LVLMs gain the ability to browse websites for real-time information updates and write code to manipulate and analyze input images through cropping, rotation, and other image processing techniques. We also present a Multi-modal Agentic Tool Bench (MAT) with two settings (MAT-Search and MAT-Coding) designed to evaluate LVLMs' agentic search and coding abilities. Our experimental results demonstrate that Visual-ARFT outperforms its baseline by +18.6% F1 / +13.0% EM on MAT-Coding and +10.3% F1 / +8.7% EM on MAT-Search, ultimately surpassing GPT-4o. Visual-ARFT also achieves +29.3 F1% / +25.9% EM gains on existing multi-hop QA benchmarks such as 2Wiki and HotpotQA, demonstrating strong generalization capabilities. Our findings suggest that Visual-ARFT offers a promising path toward building robust and generalizable multimodal agents.",
+   "backend": "arxiv",
+   "matched_queries": [],
+   "relevance": 0.0,
+   "local_path": "sources/arxiv_2505.14246.pdf",
+   "retrieval_mode": "downloaded_pdf",
+   "evidence_excerpt": "",
+   "prior_notes": "",
+   "summary": "Carried over from day1-agents: Visual-ARFT uses RL with verifiable rewards to teach vision-language models agentic search and coding.",
+   "key_findings": [
+    "Visual-ARFT beats its baseline by +18.6% F1 / +13.0% EM on MAT-Coding and +10.3% F1 / +8.7% EM on MAT-Search.",
+    "It outperforms GPT-4o on MAT and generalises to multi-hop QA (2Wiki, HotpotQA).",
+    "Multimodal agentic capabilities and their benchmarks are less explored than language-only tool use.",
+    "Large F1/EM gains on MAT-Search and MAT-Coding.",
+    "Rewards are verifiable outcomes rather than step checks."
+   ],
+   "limitations": [
+    "Tool set limited to search and image-processing code.",
+    "Step-level use of tool results is not evaluated."
+   ],
+   "topics": [
+    "Where do multimodal LLM agents fail when deciding which tool to call, forming the call, and using tool outputs, and which failure mode is the most tractable research target?",
+    "When LLMs interleave long reasoning with tool calls, how far do their reasoning steps actually check and depend on intermediate tool results, and can process-level rewards make reasoning verify tool outputs rather than only reach correct final answers?"
+   ],
+   "sessions": [
+    "day1-agents",
+    "day2-reasoning"
+   ],
+   "first_seen": "2026-10-12T08:19:48Z",
+   "last_seen": "2026-10-12T08:31:29Z"
+  },
+  "arxiv:2302.04761": {
+   "source_id": "arxiv:2302.04761",
+   "title": "Toolformer: Language Models Can Teach Themselves to Use Tools",
+   "url": "https://arxiv.org/abs/2302.04761",
+   "authors": [
+    "Timo Schick",
+    "Jane Dwivedi-Yu",
+    "Roberto Dess\u00ec",
+    "Roberta Raileanu",
+    "Maria Lomeli",
+    "Luke Zettlemoyer",
+    "Nicola Cancedda",
+    "Thomas Scialom"
+   ],
+   "year": "2023",
+   "venue": "arXiv",
+   "doi": "10.48550/arXiv.2302.04761",
+   "pdf_url": "https://arxiv.org/pdf/2302.04761v1",
+   "abstract": "Language models (LMs) exhibit remarkable abilities to solve new tasks from just a few examples or textual instructions, especially at scale. They also, paradoxically, struggle with basic functionality, such as arithmetic or factual lookup, where much simpler and smaller models excel. In this paper, we show that LMs can teach themselves to use external tools via simple APIs and achieve the best of both worlds. We introduce Toolformer, a model trained to decide which APIs to call, when to call them, what arguments to pass, and how to best incorporate the results into future token prediction. This is done in a self-supervised way, requiring nothing more than a handful of demonstrations for each API. We incorporate a range of tools, including a calculator, a Q\\&A system, two different search engines, a translation system, and a calendar. Toolformer achieves substantially improved zero-shot performance across a variety of downstream tasks, often competitive with much larger models, without sacrificing its core language modeling abilities.",
+   "backend": "arxiv",
+   "matched_queries": [],
+   "relevance": 0.0,
+   "local_path": "sources/arxiv_2302.04761.pdf",
+   "retrieval_mode": "downloaded_pdf",
+   "evidence_excerpt": "",
+   "prior_notes": "",
+   "summary": "Toolformer teaches a language model to decide which APIs to call, when, with what arguments, and how to use results, via self-supervised filtering of sampled calls.",
+   "key_findings": [
+    "API calls are kept if they reduce perplexity on future tokens.",
+    "A 6.7B GPT-J with tools outperforms much larger GPT-3 on several downstream tasks zero-shot."
+   ],
+   "limitations": [
+    "Text-only tools; multimodal inputs are not covered."
+   ],
+   "topics": [
+    "Where do multimodal LLM agents fail when deciding which tool to call, forming the call, and using tool outputs, and which failure mode is the most tractable research target?"
+   ],
+   "sessions": [
+    "day1-agents"
+   ],
+   "first_seen": "2026-10-12T08:19:48Z",
+   "last_seen": "2026-10-12T08:19:48Z"
+  },
+  "arxiv:2503.01763": {
+   "source_id": "arxiv:2503.01763",
+   "title": "Retrieval Models Aren't Tool-Savvy: Benchmarking Tool Retrieval for Large Language Models",
+   "url": "https://arxiv.org/abs/2503.01763",
+   "authors": [
+    "Zhengliang Shi",
+    "Yuhan Wang",
+    "Lingyong Yan",
+    "Pengjie Ren",
+    "Shuaiqiang Wang",
+    "Dawei Yin",
+    "Zhaochun Ren"
+   ],
+   "year": "2025",
+   "venue": "arXiv",
+   "doi": "10.48550/arXiv.2503.01763",
+   "pdf_url": "https://arxiv.org/pdf/2503.01763v2",
+   "abstract": "Tool learning aims to augment large language models (LLMs) with diverse tools, enabling them to act as agents for solving practical tasks. Due to the limited context length of tool-using LLMs, adopting information retrieval (IR) models to select useful tools from large toolsets is a critical initial step. However, the performance of IR models in tool retrieval tasks remains underexplored and unclear. Most tool-use benchmarks simplify this step by manually pre-annotating a small set of relevant tools for each task, which is far from the real-world scenarios. In this paper, we propose ToolRet, a heterogeneous tool retrieval benchmark comprising 7.6k diverse retrieval tasks, and a corpus of 43k tools, collected from existing datasets. We benchmark six types of models on ToolRet. Surprisingly, even the models with strong performance in conventional IR benchmarks, exhibit poor performance on ToolRet. This low retrieval quality degrades the task pass rate of tool-use LLMs. As a further step, we contribute a large-scale training dataset with over 200k instances, which substantially optimizes the tool retrieval ability of IR models.",
+   "backend": "arxiv",
+   "matched_queries": [],
+   "relevance": 0.0,
+   "local_path": "sources/arxiv_2503.01763.pdf",
+   "retrieval_mode": "downloaded_pdf",
+   "evidence_excerpt": "",
+   "prior_notes": "",
+   "summary": "Carried over from day1-agents: ToolRet shows retrieval models select tools poorly from large toolsets, lowering end-to-end pass rates.",
+   "key_findings": [
+    "Models strong on conventional IR benchmarks perform poorly on tool retrieval.",
+    "Low retrieval quality degrades the end-to-end task pass rate of tool-using LLMs.",
+    "A 200k-instance training set substantially improves tool retrieval.",
+    "Strong conventional IR models perform poorly on tool retrieval.",
+    "Poor retrieval lowers end-to-end task pass rate."
+   ],
+   "limitations": [
+    "Text tasks only.",
+    "Does not study reasoning; text tasks only."
+   ],
+   "topics": [
+    "Where do multimodal LLM agents fail when deciding which tool to call, forming the call, and using tool outputs, and which failure mode is the most tractable research target?",
+    "When LLMs interleave long reasoning with tool calls, how far do their reasoning steps actually check and depend on intermediate tool results, and can process-level rewards make reasoning verify tool outputs rather than only reach correct final answers?"
+   ],
+   "sessions": [
+    "day1-agents",
+    "day2-reasoning"
+   ],
+   "first_seen": "2026-10-12T08:19:48Z",
+   "last_seen": "2026-10-12T08:31:29Z"
+  },
+  "arxiv:2406.10819": {
+   "source_id": "arxiv:2406.10819",
+   "title": "GUI-World: A Video Benchmark and Dataset for Multimodal GUI-oriented Understanding",
+   "url": "https://arxiv.org/abs/2406.10819",
+   "authors": [
+    "Dongping Chen",
+    "Yue Huang",
+    "Siyuan Wu",
+    "Jingyu Tang",
+    "Liuyi Chen",
+    "Yilin Bai",
+    "Zhigang He",
+    "Chenlong Wang",
+    "Huichi Zhou",
+    "Yiqiang Li",
+    "Tianshuo Zhou",
+    "Yue Yu",
+    "Chujie Gao",
+    "Qihui Zhang",
+    "Yi Gui",
+    "Zhen Li",
+    "Yao Wan",
+    "Pan Zhou",
+    "Jianfeng Gao",
+    "Lichao Sun"
+   ],
+   "year": "2024",
+   "venue": "arXiv",
+   "doi": "10.48550/arXiv.2406.10819",
+   "pdf_url": "https://arxiv.org/pdf/2406.10819v2",
+   "abstract": "Recently, Multimodal Large Language Models (MLLMs) have been used as agents to control keyboard and mouse inputs by directly perceiving the Graphical User Interface (GUI) and generating corresponding commands. However, current agents primarily demonstrate strong understanding capabilities in static environments and are mainly applied to relatively simple domains, such as Web or mobile interfaces. We argue that a robust GUI agent should be capable of perceiving temporal information on the GUI, including dynamic Web content and multi-step tasks. Additionally, it should possess a comprehensive understanding of various GUI scenarios, including desktop software and multi-window interactions. To this end, this paper introduces a new dataset, termed GUI-World, which features meticulously crafted Human-MLLM annotations, extensively covering six GUI scenarios and eight types of GUI-oriented questions in three formats. We evaluate the capabilities of current state-of-the-art MLLMs, including Image LLMs and Video LLMs, in understanding various types of GUI content, especially dynamic and sequential content. Our findings reveal that current models struggle with dynamic GUI content without manually annotated keyframes or operation history. On the other hand, Video LLMs fall short in all GUI-oriented tasks given the sparse GUI video dataset. Therefore, we take the initial step of leveraging a fine-tuned Video LLM, GUI-Vid, as a GUI-oriented assistant, demonstrating an improved understanding of various GUI tasks. However, due to the limitations in the performance of base LLMs, we conclude that using video LLMs as GUI agents remains a significant challenge. We believe our work provides valuable insights for future research in dynamic GUI content understanding. All the dataset and code are publicly available at: https://gui-world.github.io.",
+   "backend": "arxiv",
+   "matched_queries": [],
+   "relevance": 0.0,
+   "local_path": "sources/arxiv_2406.10819.pdf",
+   "retrieval_mode": "downloaded_pdf",
+   "evidence_excerpt": "",
+   "prior_notes": "",
+   "summary": "GUI-World is a video benchmark covering six GUI scenarios to test multimodal models' understanding of dynamic, multi-step GUI content.",
+   "key_findings": [
+    "Current models struggle with dynamic GUI content without annotated keyframes or operation history.",
+    "Video LLMs fall short on all GUI-oriented tasks evaluated."
+   ],
+   "limitations": [
+    "Measures understanding rather than tool or action execution."
+   ],
+   "topics": [
+    "Where do multimodal LLM agents fail when deciding which tool to call, forming the call, and using tool outputs, and which failure mode is the most tractable research target?"
+   ],
+   "sessions": [
+    "day1-agents"
+   ],
+   "first_seen": "2026-10-12T08:19:48Z",
+   "last_seen": "2026-10-12T08:19:48Z"
+  },
+  "arxiv:2509.18420": {
+   "source_id": "arxiv:2509.18420",
+   "title": "Instruction-Following Evaluation in Function Calling for Large Language Models",
+   "url": "https://arxiv.org/abs/2509.18420",
+   "authors": [
+    "Nikolai Skripko"
+   ],
+   "year": "2025",
+   "venue": "arXiv",
+   "doi": "10.48550/arXiv.2509.18420",
+   "pdf_url": "https://arxiv.org/pdf/2509.18420v1",
+   "abstract": "Function calling is a core capability of large language models, essential for AI agents. Existing benchmarks such as the Berkeley Function Calling Leaderboard (BFCL), tau^2-Bench (arXiv:2506.07982), and ACEBench (arXiv:2501.12851) evaluate argument correctness but do not test adherence to format instructions embedded in parameter descriptions, such as enclosing values in double quotes or using ISO date formats. We introduce IFEval-FC, a benchmark inspired by IFEval (arXiv:2311.07911) that assesses precise instruction following in function calling. IFEval-FC encodes verifiable formats directly within JSON schema descriptions, for example specifying that a value must not contain punctuation. It includes 750 test cases, each consisting of a function with an embedded format for one of its input parameters and a corresponding user query. Evaluation is fully algorithmic, ensuring objectivity, reproducibility, and scalability. Our results show that even state-of-the-art proprietary models, including GPT-5 and Claude 4.1 Opus, frequently fail to follow basic formatting rules, highlighting a practical limitation for real-world agent systems. The complete codebase and data are publicly available at https://github.com/Skripkon/IFEval-FC.",
+   "backend": "arxiv",
+   "matched_queries": [],
+   "relevance": 0.0,
+   "local_path": "sources/arxiv_2509.18420.pdf",
+   "retrieval_mode": "downloaded_pdf",
+   "evidence_excerpt": "",
+   "prior_notes": "",
+   "summary": "IFEval-FC tests whether models follow format instructions embedded in function-parameter descriptions.",
+   "key_findings": [
+    "No evaluated model surpassed 80% accuracy, including GPT-5 and Claude 4.1 Opus.",
+    "Existing function-calling benchmarks check argument correctness but not format adherence."
+   ],
+   "limitations": [
+    "Only one function is available per test; tool selection is not tested.",
+    "English only."
+   ],
+   "topics": [
+    "Where do multimodal LLM agents fail when deciding which tool to call, forming the call, and using tool outputs, and which failure mode is the most tractable research target?"
+   ],
+   "sessions": [
+    "day1-agents"
+   ],
+   "first_seen": "2026-10-12T08:19:48Z",
+   "last_seen": "2026-10-12T08:19:48Z"
+  },
+  "arxiv:2609.31718": {
+   "source_id": "arxiv:2609.31718",
+   "title": "MM-VeriRec: Failure-Guided Fusion for Verifiable Agentic Multimodal Recommendation",
+   "url": "https://arxiv.org/abs/2609.31718",
+   "authors": [
+    "Yufeng Wang"
+   ],
+   "year": "2026",
+   "venue": "The 1st International Workshop on Agentic Multimodal Intelligence, co-located with ACM Multimedia 2026",
+   "doi": "10.1145/3841452.3841492",
+   "pdf_url": "https://arxiv.org/pdf/2609.31718v1",
+   "abstract": "Images often carry recommendation constraints that text metadata only hints at. A movie may need to look dark, a product may need a minimal style, and a visually impossible request should be rejected. Agentic multimodal recommenders must reason over text-image evidence, decide when visual evidence is decisive, and abstain when no valid action exists. We introduce MM-VeriRec, a verifiable multimodal recommendation protocol and failure-guided fusion method for hidden visual constraints, image-text mismatch, and impossible-task abstention. MM-VeriRec builds tasks from real movie-poster and product-image datasets, verifies each recommendation with deterministic visual attributes, and converts failures into actionable labels: text-trap following, visual ignorance, and false acceptance. Fusion should not merely concatenate modalities, but should diagnose which modality failed and route to the appropriate repair. Across MM-ML 1M and Amazon Reviews datasets, stronger text and vision embeddings improve retrieval but do not remove these failure modes, whereas failure-guided fusion does. The adaptive attribute gate reads the same tags the verifier checks and its scores are verifier-aligned upper bounds testing whether the taxonomy routes to the correct repair. More informative is transfer under a non-aligned gate: an independently derived leave-one-out CLIP detector still reaches 0.7028 and 0.6111 visual-grounded success, above both a VBPR baseline and plain fusion. The text-versus-visual gap reproduces across two LLM families, and the repair that helps differs by domain. MM-VeriRec is both a benchmark and a practical diagnostic loop for trustworthy agentic multimodal recommendation.",
+   "backend": "arxiv",
+   "matched_queries": [],
+   "relevance": 0.0,
+   "local_path": "sources/arxiv_2609.31718.pdf",
+   "retrieval_mode": "downloaded_pdf",
+   "evidence_excerpt": "",
+   "prior_notes": "",
+   "summary": "MM-VeriRec verifies agentic multimodal recommendations against deterministic visual attributes and uses a failure taxonomy to route repairs.",
+   "key_findings": [
+    "Failures are labelled text-trap following, visual ignorance and false acceptance.",
+    "Stronger text and vision embeddings improve retrieval but do not remove these failure modes; failure-guided fusion does.",
+    "Cross-modal checks should be applied where the observed failure distribution says they matter."
+   ],
+   "limitations": [
+    "Recommendation domain; relies on an aligned visual analyser."
+   ],
+   "topics": [
+    "Where do multimodal LLM agents fail when deciding which tool to call, forming the call, and using tool outputs, and which failure mode is the most tractable research target?"
+   ],
+   "sessions": [
+    "day1-agents"
+   ],
+   "first_seen": "2026-10-12T08:19:48Z",
+   "last_seen": "2026-10-12T08:19:48Z"
+  },
+  "arxiv:2607.09822": {
+   "source_id": "arxiv:2607.09822",
+   "title": "Memory-Conditioned Tool Calling for Camera-First Visual Agents",
+   "url": "https://arxiv.org/abs/2607.09822",
+   "authors": [
+    "Xiaofan Wu",
+    "Xi Zeng",
+    "Miaoxia Chen",
+    "Peishan Chen",
+    "Shuyan Li",
+    "Jiyun Yao",
+    "Hanyong Zhong",
+    "Jiahao Zhu"
+   ],
+   "year": "2026",
+   "venue": "arXiv",
+   "doi": "10.48550/arXiv.2607.09822",
+   "pdf_url": "https://arxiv.org/pdf/2607.09822v1",
+   "abstract": "Recognition tells an agent what is in an image; personal memory affects what is worth looking up next. In a camera-first setting the user can send only an image, so the agent must form the lookups. We study whether personal visual memory improves agent-side tool choice and tool arguments, and thereby more user-aligned multi-tool lookups. The design uses a three-layer personal visual memory (profile, short-term focus, observations) that is loaded on each turn to condition an LLM tool-calling loop under camera-first intake, and includes conflict-aware write-back intended to refresh the user model for later captures. On 800 images paired with synthetic memory blocks constructed for controlled ablation, removing the full three-layer memory block reduces tool-query relevance by 0.47 points absolute (4.21 -> 3.74 on a 5-point scale; 11.2% relative) and end-to-end utility by 0.082 absolute (0.842 -> 0.760; 9.7% relative). These results measure memory conditioning of tool policy under image-only intake with fixed synthetic blocks, not multi-session write-back from live user histories.",
+   "backend": "arxiv",
+   "matched_queries": [],
+   "relevance": 0.0,
+   "local_path": "sources/arxiv_2607.09822.pdf",
+   "retrieval_mode": "downloaded_pdf",
+   "evidence_excerpt": "",
+   "prior_notes": "",
+   "summary": "Studies whether personal visual memory improves tool choice and arguments for camera-first agents that receive only an image.",
+   "key_findings": [
+    "Removing the three-layer memory block reduces tool-query relevance from 4.21 to 3.74 (11.2% relative) and end-to-end utility from 0.842 to 0.760."
+   ],
+   "limitations": [
+    "Synthetic memory blocks; multi-session write-back from live histories is not measured."
+   ],
+   "topics": [
+    "Where do multimodal LLM agents fail when deciding which tool to call, forming the call, and using tool outputs, and which failure mode is the most tractable research target?"
+   ],
+   "sessions": [
+    "day1-agents"
+   ],
+   "first_seen": "2026-10-12T08:19:48Z",
+   "last_seen": "2026-10-12T08:19:48Z"
+  },
+  "arxiv:2510.01253": {
+   "source_id": "arxiv:2510.01253",
+   "title": "OR-Toolformer: Modeling and Solving Operations Research Problems with Tool Augmented Large Language Models",
+   "url": "https://arxiv.org/abs/2510.01253",
+   "authors": [
+    "Jianzhang Zhang",
+    "Jialong Zhou",
+    "Chuang Liu"
+   ],
+   "year": "2025",
+   "venue": "arXiv",
+   "doi": "10.48550/arXiv.2510.01253",
+   "pdf_url": "https://arxiv.org/pdf/2510.01253v1",
+   "abstract": "Large language models (LLMs) demonstrate strong mathematical reasoning, but reliance on closed-source APIs for OR tasks raises privacy concerns, and training open-source models from scratch incurs high compute costs. We introduce OR-Toolformer, which fine-tunes Llama-3.1-8B-Instruct with a semi-automatic data synthesis pipeline that generates diverse OR problem-answer pairs and augments the model with external solvers to produce API calls. On three of four standard benchmarks, OR-Toolformer achieves up to 80.1% execution accuracy, exceeding size-matched baselines by over 4.3%. In zero-shot evaluation on two unseen OR problem types, it attains 54% average accuracy, a 21 percentage-point improvement over the strongest baseline. These findings validate the efficacy of tool-augmented fine-tuning LLMs for accurate and generalizable OR problem modeling and solving.",
+   "backend": "arxiv",
+   "matched_queries": [],
+   "relevance": 0.0,
+   "local_path": "sources/arxiv_2510.01253.pdf",
+   "retrieval_mode": "downloaded_pdf",
+   "evidence_excerpt": "",
+   "prior_notes": "",
+   "summary": "OR-Toolformer fine-tunes Llama-3.1-8B to call external operations-research solvers.",
+   "key_findings": [
+    "Up to 80.1% execution accuracy on three of four benchmarks, over 4.3% above size-matched baselines.",
+    "54% zero-shot accuracy on unseen problem types, 21 points over the strongest baseline."
+   ],
+   "limitations": [
+    "Lower accuracy on complex industry-scale tasks.",
+    "Only one open-source model evaluated."
+   ],
+   "topics": [
+    "Where do multimodal LLM agents fail when deciding which tool to call, forming the call, and using tool outputs, and which failure mode is the most tractable research target?"
+   ],
+   "sessions": [
+    "day1-agents"
+   ],
+   "first_seen": "2026-10-12T08:19:48Z",
+   "last_seen": "2026-10-12T08:19:48Z"
+  },
+  "arxiv:2410.03595": {
+   "source_id": "arxiv:2410.03595",
+   "title": "Understanding Reasoning in Chain-of-Thought from the Hopfieldian View",
+   "url": "https://arxiv.org/abs/2410.03595",
+   "authors": [
+    "Lijie Hu",
+    "Liang Liu",
+    "Shu Yang",
+    "Xin Chen",
+    "Zhen Tan",
+    "Muhammad Asif Ali",
+    "Mengdi Li",
+    "Di Wang"
+   ],
+   "year": "2024",
+   "venue": "arXiv",
+   "doi": "10.48550/arXiv.2410.03595",
+   "pdf_url": "https://arxiv.org/pdf/2410.03595v1",
+   "abstract": "Large Language Models have demonstrated remarkable abilities across various tasks, with Chain-of-Thought (CoT) prompting emerging as a key technique to enhance reasoning capabilities. However, existing research primarily focuses on improving performance, lacking a comprehensive framework to explain and understand the fundamental factors behind CoT's success. To bridge this gap, we introduce a novel perspective grounded in the Hopfieldian view of cognition in cognitive neuroscience. We establish a connection between CoT reasoning and key cognitive elements such as stimuli, actions, neural populations, and representation spaces. From our view, we can understand the reasoning process as the movement between these representation spaces. Building on this insight, we develop a method for localizing reasoning errors in the response of CoTs. Moreover, we propose the Representation-of-Thought (RoT) framework, which leverages the robustness of low-dimensional representation spaces to enhance the robustness of the reasoning process in CoTs. Experimental results demonstrate that RoT improves the robustness and interpretability of CoT reasoning while offering fine-grained control over the reasoning process.",
+   "backend": "arxiv",
+   "matched_queries": [],
+   "relevance": 0.0,
+   "local_path": "sources/arxiv_2410.03595.pdf",
+   "retrieval_mode": "downloaded_pdf",
+   "evidence_excerpt": "",
+   "prior_notes": "",
+   "summary": "Interprets chain-of-thought reasoning through a Hopfieldian view of representation spaces and proposes Representation-of-Thought to localise errors and improve robustness.",
+   "key_findings": [
+    "Reasoning errors in CoT responses can be localised in representation space.",
+    "RoT improves the robustness of CoT reasoning."
+   ],
+   "limitations": [
+    "Exact gains are not stated in the evidence.",
+    "Does not consider tool use."
+   ],
+   "topics": [
+    "When LLMs interleave long reasoning with tool calls, how far do their reasoning steps actually check and depend on intermediate tool results, and can process-level rewards make reasoning verify tool outputs rather than only reach correct final answers?"
+   ],
+   "sessions": [
+    "day2-reasoning"
+   ],
+   "first_seen": "2026-10-12T08:31:28Z",
+   "last_seen": "2026-10-12T08:31:29Z"
+  },
+  "arxiv:2306.11885": {
+   "source_id": "arxiv:2306.11885",
+   "title": "Reward Shaping via Diffusion Process in Reinforcement Learning",
+   "url": "https://arxiv.org/abs/2306.11885",
+   "authors": [
+    "Peeyush Kumar"
+   ],
+   "year": "2023",
+   "venue": "arXiv",
+   "doi": "10.48550/arXiv.2306.11885",
+   "pdf_url": "https://arxiv.org/pdf/2306.11885v1",
+   "abstract": "Reinforcement Learning (RL) models have continually evolved to navigate the exploration - exploitation trade-off in uncertain Markov Decision Processes (MDPs). In this study, I leverage the principles of stochastic thermodynamics and system dynamics to explore reward shaping via diffusion processes. This provides an elegant framework as a way to think about exploration-exploitation trade-off. This article sheds light on relationships between information entropy, stochastic system dynamics, and their influences on entropy production. This exploration allows us to construct a dual-pronged framework that can be interpreted as either a maximum entropy program for deriving efficient policies or a modified cost optimization program accounting for informational costs and benefits. This work presents a novel perspective on the physical nature of information and its implications for online learning in MDPs, consequently providing a better understanding of information-oriented formulations in RL.",
+   "backend": "arxiv",
+   "matched_queries": [],
+   "relevance": 0.0,
+   "local_path": "sources/arxiv_2306.11885.pdf",
+   "retrieval_mode": "downloaded_pdf",
+   "evidence_excerpt": "",
+   "prior_notes": "",
+   "summary": "Theoretical framework for reward shaping in Markov decision processes using diffusion processes and stochastic thermodynamics.",
+   "key_findings": [
+    "Frames the exploration-exploitation trade-off as a maximum-entropy or information-cost optimisation."
+   ],
+   "limitations": [
+    "Not about language models or reasoning; matched on reinforcement-learning keywords only."
+   ],
+   "topics": [
+    "When LLMs interleave long reasoning with tool calls, how far do their reasoning steps actually check and depend on intermediate tool results, and can process-level rewards make reasoning verify tool outputs rather than only reach correct final answers?"
+   ],
+   "sessions": [
+    "day2-reasoning"
+   ],
+   "first_seen": "2026-10-12T08:31:28Z",
+   "last_seen": "2026-10-12T08:31:29Z"
+  },
+  "arxiv:2301.13379": {
+   "source_id": "arxiv:2301.13379",
+   "title": "Faithful Chain-of-Thought Reasoning",
+   "url": "https://arxiv.org/abs/2301.13379",
+   "authors": [
+    "Qing Lyu",
+    "Shreya Havaldar",
+    "Adam Stein",
+    "Li Zhang",
+    "Delip Rao",
+    "Eric Wong",
+    "Marianna Apidianaki",
+    "Chris Callison-Burch"
+   ],
+   "year": "2023",
+   "venue": "arXiv",
+   "doi": "10.48550/arXiv.2301.13379",
+   "pdf_url": "https://arxiv.org/pdf/2301.13379v3",
+   "abstract": "While Chain-of-Thought (CoT) prompting boosts Language Models' (LM) performance on a gamut of complex reasoning tasks, the generated reasoning chain does not necessarily reflect how the model arrives at the answer (aka. faithfulness). We propose Faithful CoT, a reasoning framework involving two stages: Translation (Natural Language query $\\rightarrow$ symbolic reasoning chain) and Problem Solving (reasoning chain $\\rightarrow$ answer), using an LM and a deterministic solver respectively. This guarantees that the reasoning chain provides a faithful explanation of the final answer. Aside from interpretability, Faithful CoT also improves empirical performance: it outperforms standard CoT on 9 of 10 benchmarks from 4 diverse domains, with a relative accuracy gain of 6.3% on Math Word Problems (MWP), 3.4% on Planning, 5.5% on Multi-hop Question Answering (QA), and 21.4% on Relational Inference. Furthermore, with GPT-4 and Codex, it sets the new state-of-the-art few-shot performance on 7 datasets (with 95.0+ accuracy on 6 of them), showing a strong synergy between faithfulness and accuracy.",
+   "backend": "arxiv",
+   "matched_queries": [],
+   "relevance": 0.0,
+   "local_path": "sources/arxiv_2301.13379.pdf",
+   "retrieval_mode": "downloaded_pdf",
+   "evidence_excerpt": "",
+   "prior_notes": "",
+   "summary": "Faithful CoT translates a natural-language query into a symbolic reasoning chain and executes it with a deterministic solver so the chain faithfully explains the answer.",
+   "key_findings": [
+    "Standard CoT chains do not necessarily reflect how the model reaches its answer.",
+    "Faithful CoT beats standard CoT on 9 of 10 benchmarks, e.g. +6.3% relative on math word problems and +21.4% on relational inference.",
+    "With GPT-4 and Codex it sets few-shot state of the art on 7 datasets."
+   ],
+   "limitations": [
+    "The translation step remains opaque, so the pipeline is not fully interpretable."
+   ],
+   "topics": [
+    "When LLMs interleave long reasoning with tool calls, how far do their reasoning steps actually check and depend on intermediate tool results, and can process-level rewards make reasoning verify tool outputs rather than only reach correct final answers?"
+   ],
+   "sessions": [
+    "day2-reasoning"
+   ],
+   "first_seen": "2026-10-12T08:31:28Z",
+   "last_seen": "2026-10-12T08:31:29Z"
+  },
+  "arxiv:2506.08989": {
+   "source_id": "arxiv:2506.08989",
+   "title": "SwS: Self-aware Weakness-driven Problem Synthesis in Reinforcement Learning for LLM Reasoning",
+   "url": "https://arxiv.org/abs/2506.08989",
+   "authors": [
+    "Xiao Liang",
+    "Zhong-Zhi Li",
+    "Yeyun Gong",
+    "Yang Wang",
+    "Hengyuan Zhang",
+    "Yelong Shen",
+    "Ying Nian Wu",
+    "Weizhu Chen"
+   ],
+   "year": "2025",
+   "venue": "arXiv",
+   "doi": "10.48550/arXiv.2506.08989",
+   "pdf_url": "https://arxiv.org/pdf/2506.08989v1",
+   "abstract": "Reinforcement Learning with Verifiable Rewards (RLVR) has proven effective for training large language models (LLMs) on complex reasoning tasks, such as mathematical problem solving. A prerequisite for the scalability of RLVR is a high-quality problem set with precise and verifiable answers. However, the scarcity of well-crafted human-labeled math problems and limited-verification answers in existing distillation-oriented synthetic datasets limit their effectiveness in RL. Additionally, most problem synthesis strategies indiscriminately expand the problem set without considering the model's capabilities, leading to low efficiency in generating useful questions. To mitigate this issue, we introduce a Self-aware Weakness-driven problem Synthesis framework (SwS) that systematically identifies model deficiencies and leverages them for problem augmentation. Specifically, we define weaknesses as questions that the model consistently fails to learn through its iterative sampling during RL training. We then extract the core concepts from these failure cases and synthesize new problems to strengthen the model's weak areas in subsequent augmented training, enabling it to focus on and gradually overcome its weaknesses. Without relying on external knowledge distillation, our framework enables robust generalization byempowering the model to self-identify and address its weaknesses in RL, yielding average performance gains of 10.0% and 7.7% on 7B and 32B models across eight mainstream reasoning benchmarks.",
+   "backend": "arxiv",
+   "matched_queries": [],
+   "relevance": 0.0,
+   "local_path": "sources/arxiv_2506.08989.pdf",
+   "retrieval_mode": "downloaded_pdf",
+   "evidence_excerpt": "",
+   "prior_notes": "",
+   "summary": "SwS synthesises new RL training problems from questions the model consistently fails during RL with verifiable rewards.",
+   "key_findings": [
+    "Problem synthesis targeted at model weaknesses improves reasoning generalisation.",
+    "Most synthesis strategies expand problem sets without regard to model capability."
+   ],
+   "limitations": [
+    "Focused on math with verifiable final answers."
+   ],
+   "topics": [
+    "When LLMs interleave long reasoning with tool calls, how far do their reasoning steps actually check and depend on intermediate tool results, and can process-level rewards make reasoning verify tool outputs rather than only reach correct final answers?"
+   ],
+   "sessions": [
+    "day2-reasoning"
+   ],
+   "first_seen": "2026-10-12T08:31:28Z",
+   "last_seen": "2026-10-12T08:31:29Z"
+  },
+  "arxiv:2210.03629": {
+   "source_id": "arxiv:2210.03629",
+   "title": "ReAct: Synergizing Reasoning and Acting in Language Models",
+   "url": "https://arxiv.org/abs/2210.03629",
+   "authors": [
+    "Shunyu Yao",
+    "Jeffrey Zhao",
+    "Dian Yu",
+    "Nan Du",
+    "Izhak Shafran",
+    "Karthik Narasimhan",
+    "Yuan Cao"
+   ],
+   "year": "2022",
+   "venue": "arXiv",
+   "doi": "10.48550/arXiv.2210.03629",
+   "pdf_url": "https://arxiv.org/pdf/2210.03629v3",
+   "abstract": "While large language models (LLMs) have demonstrated impressive capabilities across tasks in language understanding and interactive decision making, their abilities for reasoning (e.g. chain-of-thought prompting) and acting (e.g. action plan generation) have primarily been studied as separate topics. In this paper, we explore the use of LLMs to generate both reasoning traces and task-specific actions in an interleaved manner, allowing for greater synergy between the two: reasoning traces help the model induce, track, and update action plans as well as handle exceptions, while actions allow it to interface with external sources, such as knowledge bases or environments, to gather additional information. We apply our approach, named ReAct, to a diverse set of language and decision making tasks and demonstrate its effectiveness over state-of-the-art baselines, as well as improved human interpretability and trustworthiness over methods without reasoning or acting components. Concretely, on question answering (HotpotQA) and fact verification (Fever), ReAct overcomes issues of hallucination and error propagation prevalent in chain-of-thought reasoning by interacting with a simple Wikipedia API, and generates human-like task-solving trajectories that are more interpretable than baselines without reasoning traces. On two interactive decision making benchmarks (ALFWorld and WebShop), ReAct outperforms imitation and reinforcement learning methods by an absolute success rate of 34% and 10% respectively, while being prompted with only one or two in-context examples. Project site with code: https://react-lm.github.io",
+   "backend": "arxiv",
+   "matched_queries": [],
+   "relevance": 0.0,
+   "local_path": "sources/arxiv_2210.03629.pdf",
+   "retrieval_mode": "downloaded_pdf",
+   "evidence_excerpt": "",
+   "prior_notes": "",
+   "summary": "ReAct prompts LLMs to interleave reasoning traces with task actions that query external sources.",
+   "key_findings": [
+    "Reasoning traces help induce, track and update action plans and handle exceptions.",
+    "On HotpotQA and Fever, ReAct reduces hallucination and error propagation compared with reasoning alone.",
+    "Interleaved trajectories are more interpretable and diagnosable."
+   ],
+   "limitations": [
+    "Main experiments use PaLM, which is not openly accessible."
+   ],
+   "topics": [
+    "When LLMs interleave long reasoning with tool calls, how far do their reasoning steps actually check and depend on intermediate tool results, and can process-level rewards make reasoning verify tool outputs rather than only reach correct final answers?"
+   ],
+   "sessions": [
+    "day2-reasoning"
+   ],
+   "first_seen": "2026-10-12T08:31:28Z",
+   "last_seen": "2026-10-12T08:31:29Z"
+  },
+  "arxiv:2510.25510": {
+   "source_id": "arxiv:2510.25510",
+   "title": "MTIR-SQL: Multi-turn Tool-Integrated Reasoning Reinforcement Learning for Text-to-SQL",
+   "url": "https://arxiv.org/abs/2510.25510",
+   "authors": [
+    "Zekun Xu",
+    "Siyu Xia",
+    "Chuhuai Yue",
+    "Jiajun Chai",
+    "Mingxue Tian",
+    "Xiaohan Wang",
+    "Wei Lin",
+    "Haoxuan Li",
+    "Guojun Yin"
+   ],
+   "year": "2025",
+   "venue": "arXiv",
+   "doi": "10.48550/arXiv.2510.25510",
+   "pdf_url": "https://arxiv.org/pdf/2510.25510v1",
+   "abstract": "As large language models (LLMs) are increasingly used in Text-to-SQL tasks, Reinforcement Learning (RL) has become a common method for improving performance. Existing methods primarily rely on static execution feedback, which restricts real-time error correction. However, integrating multi-turn tool invocation along with dynamic feedback could significantly improve adaptability and robustness, ultimately enhancing model performance. To address these issues, we propose MTIR-SQL, an innovative Multi-turn Tool-Integrated Reasoning reinforcement learning framework for Text-to-SQL. Our approach introduces an execution-aware multi-turn reasoning paradigm that seamlessly incorporates database execution feedback at each reasoning step, enabling context-sensitive query generation and progressive refinement throughout the reasoning process. The framework extends the GRPO algorithm to accommodate complex multi-turn interaction scenarios. Considering the training instability characteristics of MTIR and the potential for significant Deviation of model distribution from the initial model, we enhance the GRPO algorithm by adding a trajectory filtering mechanism and removing KL loss constraints. Experimental results demonstrate that MTIR-SQL, with 4B parameters, achieves \\textbf{64.4}\\% accuracy in the BIRD Dev and 84.6% execution accuracy in the SPIDER Dev, significantly outperforming existing approaches.",
+   "backend": "arxiv",
+   "matched_queries": [],
+   "relevance": 0.0,
+   "local_path": "sources/arxiv_2510.25510.pdf",
+   "retrieval_mode": "downloaded_pdf",
+   "evidence_excerpt": "",
+   "prior_notes": "",
+   "summary": "MTIR-SQL trains text-to-SQL models with multi-turn tool-integrated reasoning RL that uses database execution feedback at each step.",
+   "key_findings": [
+    "Execution results inform each reasoning step, creating a self-correcting loop.",
+    "Extends GRPO with trajectory filtering and removes KL constraints.",
+    "Reaches 64.4% accuracy on BIRD-SQL."
+   ],
+   "limitations": [
+    "Single domain (SQL) where tool feedback is directly executable."
+   ],
+   "topics": [
+    "When LLMs interleave long reasoning with tool calls, how far do their reasoning steps actually check and depend on intermediate tool results, and can process-level rewards make reasoning verify tool outputs rather than only reach correct final answers?"
+   ],
+   "sessions": [
+    "day2-reasoning"
+   ],
+   "first_seen": "2026-10-12T08:31:28Z",
+   "last_seen": "2026-10-12T08:31:29Z"
+  }
+ },
+ "sessions": [
+  {
+   "session_id": "day1-agents",
+   "date": "2026-10-12T08:19:48Z",
+   "raw_problem": "Multimodal LLM agents increasingly act by calling tools (APIs, code, image and GUI tools). What are the main open problems in how multimodal agents decide, call and use tools, and which one is worth researching?",
+   "research_question": "Where do multimodal LLM agents fail when deciding which tool to call, forming the call, and using tool outputs, and which failure mode is the most tractable research target?",
+   "key_concepts": [
+    "multimodal agents",
+    "tool calling",
+    "tool use",
+    "vision-language models",
+    "visual tools",
+    "GUI agents",
+    "function calling",
+    "benchmarks"
+   ],
+   "synthesis": "Tool use by language and multimodal agents breaks into three steps that the sources study separately: choosing a tool, forming a correct call, and using what comes back. Toolformer shows a model can learn when and how to call APIs from self-supervision, and later work fine-tunes for domain tools (OR solvers) or trains vision-language agents with verifiable rewards to search and run image-manipulation code. Benchmarks expose weaknesses at each step: retrieval models are poor at selecting tools from large toolsets, even frontier models break simple format rules in function arguments, and multimodal models struggle with dynamic GUI content.\n\nThe multimodal sources add a fourth problem: deciding when visual evidence is decisive and checking tool outputs against it. Failure-guided fusion shows that stronger embeddings do not remove visual ignorance or false acceptance, and memory-conditioned tool calling shows that what an agent looks up depends on context beyond the image. No source evaluates the full choose-call-use chain for multimodal agents end to end, so where errors compound is not stated.",
+   "gaps": [
+    {
+     "id": "G1",
+     "description": "Multimodal agents do not verify tool outputs against visual evidence: visual ignorance and false acceptance persist even with stronger embeddings, and training rewards check final answers rather than intermediate tool results.",
+     "evidence_source_ids": [
+      "arxiv:2609.31718",
+      "arxiv:2505.14246"
+     ]
+    },
+    {
+     "id": "G2",
+     "description": "Tool selection is evaluated separately from argument formation: retrieval benchmarks pre-annotate or isolate tools, and function-calling benchmarks offer a single function, so compounding errors across the choose-call-use chain are unmeasured.",
+     "evidence_source_ids": [
+      "arxiv:2503.01763",
+      "arxiv:2509.18420"
+     ]
+    },
+    {
+     "id": "G3",
+     "description": "Multimodal agents lack temporal and contextual grounding for tool use: they struggle with dynamic GUI content and their lookups depend on context such as memory that benchmarks do not model.",
+     "evidence_source_ids": [
+      "arxiv:2406.10819",
+      "arxiv:2607.09822"
+     ]
+    }
+   ],
+   "recommended_direction": "Verifying tool outputs against visual evidence",
+   "recommended_hypothesis": "Adding an explicit check of each tool result against the image (consistent, contradicted, or undecidable) before it is used reduces false acceptance in multimodal agents more than stronger perception models do.",
+   "proposal_title": "Verify Before You Trust: Checking Tool Outputs Against Visual Evidence in Multimodal Agents",
+   "paper_ids": [
+    "arxiv:2505.14246",
+    "arxiv:2302.04761",
+    "arxiv:2503.01763",
+    "arxiv:2406.10819",
+    "arxiv:2509.18420",
+    "arxiv:2609.31718",
+    "arxiv:2607.09822",
+    "arxiv:2510.01253"
+   ],
+   "run_dir": "runs/day1-agents"
+  },
+  {
+   "session_id": "day2-reasoning",
+   "date": "2026-10-12T08:31:29Z",
+   "raw_problem": "Large language models now reason with long chains of thought and reinforcement learning. What open problems remain in LLM reasoning, especially when reasoning is combined with tool use, and which is worth researching?",
+   "research_question": "When LLMs interleave long reasoning with tool calls, how far do their reasoning steps actually check and depend on intermediate tool results, and can process-level rewards make reasoning verify tool outputs rather than only reach correct final answers?",
+   "key_concepts": [
+    "chain-of-thought reasoning",
+    "reinforcement learning for reasoning",
+    "process reward models",
+    "reasoning faithfulness",
+    "tool use",
+    "interleaved reasoning and acting",
+    "verification"
+   ],
+   "synthesis": "The retrieved work treats reasoning and acting as increasingly coupled. ReAct interleaves reasoning traces with actions so that retrieved information updates the plan, and newer reinforcement-learning methods feed tool or execution results back into each reasoning step (multi-turn tool-integrated RL for text-to-SQL; visual agentic RL with verifiable rewards, carried over from yesterday's session). RL with verifiable rewards also drives pure reasoning gains, with work on which training problems to synthesise from model weaknesses.\n\nA second line asks whether reasoning traces can be trusted. Standard chain of thought does not necessarily reflect how the answer is reached; Faithful CoT guarantees faithfulness by translating the query into a symbolic chain run by a deterministic solver, and representation-level analysis localises reasoning errors. Across both lines, rewards and checks attach to final answers or executable outcomes; no source tests whether intermediate reasoning steps actually depend on the tool results they cite, which connects to yesterday's gap G1 on unverified tool outputs.",
+   "gaps": [
+    {
+     "id": "G1",
+     "description": "Whether reasoning steps actually depend on the tool results they cite is untested: rewards check final answers or executable outcomes, and faithfulness work covers solver-executed chains, not interleaved tool use.",
+     "evidence_source_ids": [
+      "arxiv:2301.13379",
+      "arxiv:2210.03629",
+      "arxiv:2505.14246",
+      "arxiv:2510.25510"
+     ]
+    },
+    {
+     "id": "G2",
+     "description": "Step-level feedback is shown to help only where tool output is directly executable (SQL); how to give step-level reward when tool results are open-ended (search, vision) is not stated.",
+     "evidence_source_ids": [
+      "arxiv:2510.25510",
+      "arxiv:2505.14246"
+     ]
+    },
+    {
+     "id": "G3",
+     "description": "Weakness-driven training targets final-answer failures; no source synthesises training problems from reasoning or tool-use process failures.",
+     "evidence_source_ids": [
+      "arxiv:2506.08989",
+      "arxiv:2410.03595"
+     ]
+    }
+   ],
+   "recommended_direction": "Measuring whether reasoning uses tool results",
+   "recommended_hypothesis": "In interleaved reasoning-and-tool trajectories, perturbing a tool result often leaves the following reasoning step and final answer unchanged, showing the reasoning does not depend on the evidence it cites; this rate is higher for outcome-only RL models than for prompted ReAct agents.",
+   "proposal_title": "Does the Reasoning Read the Tool? Measuring Evidence Dependence in Tool-Integrated Reasoning",
+   "paper_ids": [
+    "arxiv:2503.01763",
+    "arxiv:2505.14246",
+    "arxiv:2410.03595",
+    "arxiv:2306.11885",
+    "arxiv:2301.13379",
+    "arxiv:2506.08989",
+    "arxiv:2210.03629",
+    "arxiv:2510.25510"
+   ],
+   "run_dir": "runs/day2-reasoning"
+  }
+ ]
+}

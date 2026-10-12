@@ -1,0 +1,1 @@
+Multimodal LLM agents increasingly act by calling tools (APIs, code, image and GUI tools). What are the main open problems in how multimodal agents decide, call and use tools, and which one is worth researching?

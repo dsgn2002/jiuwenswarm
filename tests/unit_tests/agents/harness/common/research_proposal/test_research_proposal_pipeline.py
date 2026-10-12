@@ -291,3 +291,30 @@ async def test_empty_retrieval_stops_before_the_review(tmp_path: Path):
         await make_pipeline(model, tmp_path, papers=[]).run(RAW_PROBLEM)
 
     assert [stage for stage, _ in model.calls] == ["framing"]
+
+
+async def test_small_corpus_after_backend_failure_stops_and_is_retried(tmp_path: Path):
+    class FlakyBackend(StaticBackend):
+        def __init__(self) -> None:
+            super().__init__(PAPERS[:1])
+            self.fail = True
+
+        async def search(self, query: str, max_results: int):
+            if self.fail:
+                raise RuntimeError("HTTP 429")
+            return await super().search(query, max_results)
+
+    flaky = FlakyBackend()
+    retriever = LiteratureRetriever(
+        backends=[flaky, StaticBackend(PAPERS[:1])],
+        downloader=None,
+        pause_seconds=0,
+        max_papers=6,
+    )
+    pipeline = ResearchProposalPipeline(ScriptedModel(ALL_ANSWERS), retriever, tmp_path)
+
+    with pytest.raises(EmptyCorpus, match="after backend failures"):
+        await pipeline.run(RAW_PROBLEM)
+    assert not (
+        tmp_path / "02_corpus.json"
+    ).exists()  # nothing cached: the next run retries

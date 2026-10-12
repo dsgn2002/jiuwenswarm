@@ -26,6 +26,7 @@ import asyncio
 import hashlib
 import logging
 import re
+import time
 import xml.etree.ElementTree as ET
 from collections.abc import Iterable
 from dataclasses import dataclass, field
@@ -204,11 +205,20 @@ class ArxivBackend:
         max_query_terms: int = 3,
         timeout: float = 30.0,
         client: httpx.AsyncClient | None = None,
+        min_interval: float = 3.0,
+        retries: int = 3,
+        backoff: float = 10.0,
     ) -> None:
         self._endpoint = endpoint
         self._max_query_terms = max_query_terms
         self._timeout = timeout
         self._client = client
+        # arXiv asks API clients for at least 3 s between requests and answers
+        # bursts with HTTP 429; space every request and back off on 429/503.
+        self._min_interval = min_interval
+        self._retries = retries
+        self._backoff = backoff
+        self._last_request = 0.0
 
     def build_query(self, query: str, max_terms: int | None = None) -> str:
         """AND of the first few content words, singularised.
@@ -222,16 +232,30 @@ class ArxivBackend:
         ]
         return " AND ".join(f"all:{t}" for t in terms) if terms else f"all:{query}"
 
-    async def _get(self, params: dict[str, Any]) -> str:
+    async def _request(self, params: dict[str, Any]) -> httpx.Response:
+        wait = self._last_request + self._min_interval - time.monotonic()
+        if wait > 0:
+            await asyncio.sleep(wait)
+        self._last_request = time.monotonic()
         if self._client is not None:
-            response = await self._client.get(
+            return await self._client.get(
                 self._endpoint, params=params, timeout=self._timeout
             )
-        else:
-            async with httpx.AsyncClient(follow_redirects=True) as client:
-                response = await client.get(
-                    self._endpoint, params=params, timeout=self._timeout
-                )
+        async with httpx.AsyncClient(follow_redirects=True) as client:
+            return await client.get(
+                self._endpoint, params=params, timeout=self._timeout
+            )
+
+    async def _get(self, params: dict[str, Any]) -> str:
+        for attempt in range(self._retries + 1):
+            response = await self._request(params)
+            if response.status_code not in (429, 503) or attempt == self._retries:
+                break
+            delay = self._backoff * 2**attempt
+            _LOGGER.warning(
+                "arXiv answered %s; retrying in %.0fs", response.status_code, delay
+            )
+            await asyncio.sleep(delay)
         response.raise_for_status()
         return response.text
 
@@ -507,6 +531,9 @@ class LiteratureRetriever:
     # Share of the framed problem's key-concept words a paper must mention.
     # Catches results that match one query's words but not the topic.
     min_topic_relevance: float = 0.2
+    # At most this share of the slots goes to papers found only in the research
+    # library: earlier sessions should inform a new topic, not crowd out its search.
+    max_library_share: float = 0.25
     pause_seconds: float = 3.0
 
     async def retrieve(
@@ -518,17 +545,15 @@ class LiteratureRetriever:
             q: [] for q in frame.search_queries
         }
         rejected = 0
+        errors: list[str] = []
         for query in frame.search_queries:
             for backend in self.backends:
                 try:
                     records = await backend.search(query, self.results_per_query)
                 except Exception as exc:  # noqa: BLE001 - one failing backend must not stop retrieval
-                    _LOGGER.warning(
-                        "backend %s failed for %r: %s",
-                        getattr(backend, "name", backend),
-                        query,
-                        exc,
-                    )
+                    name = getattr(backend, "name", type(backend).__name__)
+                    _LOGGER.warning("backend %s failed for %r: %s", name, query, exc)
+                    errors.append(f"{name}: {query!r}: {exc}"[:300])
                     records = []
                 for record in records:
                     if record.relevance < self.min_relevance:
@@ -554,6 +579,18 @@ class LiteratureRetriever:
         ]:
             del by_title[key]
             rejected += 1
+        library_only = sorted(
+            (k for k, p in by_title.items() if p.backend == "library"),
+            key=lambda k: (
+                -len(by_title[k].matched_queries),
+                -by_title[k].relevance,
+                k,
+            ),
+        )
+        for key in library_only[
+            max(1, int(self.max_papers * self.max_library_share)) :
+        ]:
+            del by_title[key]
         # A paper's final key is its title in by_title; arXiv rows may have been
         # renamed by the merge, so resolve through their source_id first.
         sid_to_key = {p.source_id: k for k, p in by_title.items()}
@@ -574,6 +611,7 @@ class LiteratureRetriever:
             papers=selected,
             queries_run=list(frame.search_queries),
             rejected_results=rejected,
+            backend_errors=errors,
         )
 
     async def _enrich_arxiv(self, papers: list[PaperRecord]) -> list[PaperRecord]:
@@ -582,7 +620,8 @@ class LiteratureRetriever:
         wanted = [
             p.source_id.split(":", 1)[1]
             for p in papers
-            if p.source_id.startswith("arxiv:") and p.backend != "arxiv"
+            if p.source_id.startswith("arxiv:")
+            and p.backend not in ("arxiv", "library")
         ]
         if arxiv is None or not wanted:
             return papers
@@ -594,7 +633,7 @@ class LiteratureRetriever:
         enriched = []
         for paper in papers:
             api = found.get(paper.source_id)
-            if api is None or paper.backend == "arxiv":
+            if api is None or paper.backend in ("arxiv", "library"):
                 enriched.append(paper)
                 continue
             enriched.append(
@@ -603,6 +642,7 @@ class LiteratureRetriever:
                         "matched_queries": paper.matched_queries,
                         "relevance": paper.relevance,
                         "backend": paper.backend,
+                        "prior_notes": paper.prior_notes,
                     }
                 )
             )
@@ -664,6 +704,7 @@ def _merge(
             ),
             "relevance": max(primary.relevance, other.relevance),
             "abstract": primary.abstract or other.abstract,
+            "prior_notes": primary.prior_notes or other.prior_notes,
         }
     )
 
