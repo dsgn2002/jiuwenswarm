@@ -1,0 +1,38 @@
+{
+ "raw_problem": "Activation functions evolved from sigmoid and ReLU to GELU and gated units such as SwiGLU, which now dominate Transformer feed-forward layers. What open problem in activation-function design for Transformers is worth researching next, and how would we test it?",
+ "research_question": "Which properties of the feed-forward activation in Transformers (gating, smoothness, sparsity, learnability) account for quality differences between ReLU, GELU and GLU-style units, and which under-explored property offers the best next research target?",
+ "motivation": "Feed-forward layers hold most Transformer parameters and compute, and their activation is usually chosen by convention (GELU, then SwiGLU) rather than by understanding. Knowing which property drives the gains would turn activation design from trial-and-error into a targeted search, and could trade quality against efficiency such as activation sparsity.",
+ "key_concepts": [
+  "gated linear units (GLU, SwiGLU, GeGLU)",
+  "GELU and smooth activations",
+  "activation sparsity",
+  "learnable activation functions",
+  "Transformer feed-forward network",
+  "pre-training perplexity"
+ ],
+ "in_scope": [
+  "activations in Transformer feed-forward layers",
+  "language-model pre-training and fine-tuning",
+  "efficiency effects of the activation (sparsity, inference cost)",
+  "learnable or searched activations"
+ ],
+ "out_of_scope": [
+  "attention softmax alternatives",
+  "activations for spiking or analogue hardware",
+  "non-Transformer architectures except as background"
+ ],
+ "search_queries": [
+  "GLU variants transformer feed-forward",
+  "gated linear units language modeling",
+  "activation sparsity large language models",
+  "learnable activation functions transformers",
+  "Gaussian error linear units",
+  "Swish activation search",
+  "activation function transformer pretraining comparison"
+ ],
+ "inclusion_criteria": [
+  "proposes, analyses or compares activation functions used in Transformer or language-model feed-forward layers",
+  "reports quality, training-dynamics or efficiency results",
+  "or is a primary source for an activation now used in Transformers (GELU, Swish, GLU)"
+ ]
+}

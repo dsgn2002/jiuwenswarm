@@ -1,0 +1,1 @@
+Activation functions evolved from sigmoid and ReLU to GELU and gated units such as SwiGLU, which now dominate Transformer feed-forward layers. What open problem in activation-function design for Transformers is worth researching next, and how would we test it?
